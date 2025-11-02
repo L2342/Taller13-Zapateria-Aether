@@ -35,6 +35,11 @@ async function loadProducts() {
   });
 
   updateCartCount();
+  
+  // Inicializar contador después de cargar productos
+  setTimeout(() => {
+    initializeProductCount();
+  }, 100);
 }
 
 async function updateCartCount() {
@@ -44,4 +49,99 @@ async function updateCartCount() {
   document.getElementById('cart-count').textContent = String(count);
 }
 
-loadProducts();
+// Formatear el precio
+function extractPrice(priceText) {
+  if (!priceText) return 0;
+  let cleaned = priceText.replace(/[$\s.]/g, '');
+  cleaned = cleaned.replace(',', '.');
+  
+  return parseFloat(cleaned) || 0;
+}
+
+
+//Función principal para filtrar productos
+function filterProducts() {
+  const searchTerm = document.getElementById('search-input').value.toLowerCase();
+  const minPrice = parseFloat(document.getElementById('min-price').value) || 0;
+  const maxPrice = parseFloat(document.getElementById('max-price').value) || Infinity;
+  
+  const productList = document.getElementById('product-list');
+  const noResults = document.getElementById('no-results');
+  const cards = productList.querySelectorAll('.col-12');
+  
+  let visibleCount = 0;
+  
+  cards.forEach(card => {
+    // Buscar el título del producto
+    const title = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
+    
+    // Buscar el precio del producto
+    const priceElement = card.querySelector('.fw-bold');
+    const priceText = priceElement?.textContent || '0';
+    const price = extractPrice(priceText);
+    const matchesSearch = !searchTerm || title.includes(searchTerm);
+    const matchesPrice = price >= minPrice && price <= maxPrice;
+    
+    // Mostrar u ocultar la card según los filtros
+    if (matchesSearch && matchesPrice) {
+      card.classList.remove('d-none');
+      visibleCount++;
+    } else {
+      card.classList.add('d-none');
+    }
+  });
+  
+  // Actualizar conta
+  document.getElementById('results-count').textContent = visibleCount;
+  
+  if (visibleCount === 0) {
+    noResults.classList.remove('d-none');
+    productList.classList.add('d-none');
+  } else {
+    noResults.classList.add('d-none');
+    productList.classList.remove('d-none');
+  }
+}
+
+function resetFilters() {
+  document.getElementById('search-input').value = '';
+  document.getElementById('min-price').value = '';
+  document.getElementById('max-price').value = '';
+  filterProducts();
+}
+
+function initializeProductCount() {
+  const cards = document.querySelectorAll('#product-list .col-12');
+  document.getElementById('results-count').textContent = cards.length;
+}
+
+
+function initializeFilters() {
+  //  se usan Event listeners para filtrado en tiempo real
+  const searchInput = document.getElementById('search-input');
+  const minPriceInput = document.getElementById('min-price');
+  const maxPriceInput = document.getElementById('max-price');
+  const resetButton = document.getElementById('btn-reset-filters');
+  
+  if (searchInput) {
+    searchInput.addEventListener('input', filterProducts);
+  }
+  
+  if (minPriceInput) {
+    minPriceInput.addEventListener('input', filterProducts);
+  }
+  
+  if (maxPriceInput) {
+    maxPriceInput.addEventListener('input', filterProducts);
+  }
+  
+  if (resetButton) {
+    resetButton.addEventListener('click', resetFilters);
+  }
+}
+
+// Esperar a que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', () => {
+  initializeFilters();
+  loadProducts();
+});

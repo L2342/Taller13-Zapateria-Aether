@@ -10,16 +10,24 @@ async function getCart() {
   return res.json();
 }
 
+async function getCartTotal() {
+  const res = await fetch('/api/cart/total');
+  const data = await res.json();
+  return data.total;
+}
+
 async function renderCart() {
-  const [products, cart] = await Promise.all([getProducts(), getCart()]);
+  const [products, cart, total] = await Promise.all([
+    getProducts(),
+    getCart(),
+    getCartTotal()
+  ]);
   const map = new Map(products.map(p => [p.id, p]));
   const tbody = document.getElementById('cart-body');
 
-  let total = 0;
   tbody.innerHTML = cart.map(item => {
     const p = map.get(item.productId);
     const sub = p ? p.price * item.qty : 0;
-    total += sub;
     return `
       <tr>
         <td>
@@ -71,6 +79,7 @@ async function renderCart() {
     });
   });
 }
+
 
 document.getElementById('btn-clear')?.addEventListener('click', async () => {
   await fetch('/api/cart/clear', { method: 'POST' });

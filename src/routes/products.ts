@@ -11,6 +11,9 @@ const products: Product[] = [
   { id: 4, name: "Urban Naranja", price: 159999, image: "/img/shoe_4.png", description: "Estilo urbano con suela de alta tracción.", stock: 16 },
   { id: 5, name: "Sport Morado", price: 189999, image: "/img/shoe_5.png", description: "Para entrenamientos de alto rendimiento.", stock: 10 },
   { id: 6, name: "Trail Gris", price: 209999, image: "/img/shoe_6.png", description: "Ideal para montaña y terrenos irregulares.", stock: 7 },
+  { id: 7, name: "Stellar Negro", price: 219999, image: "/img/shoe_7.png", description: "Diseño futurista con máxima comodidad.", stock: 5 },
+  { id: 8, name: "Vibe Beige", price: 169999, image: "/img/shoe_8.png", description: "Estilo casual y minimalista, adaptable a diversas ocasiones urbanas.", stock: 20 },
+  { id: 9, name: "Pulse Aqua", price: 195000, image: "/img/shoe_9.png", description: "Zapatilla deportiva con tecnología de amortiguación avanzada para mayor confort durante el ejercicio.", stock: 14 }
 ];
 
 router.get("/", (_req, res) => {

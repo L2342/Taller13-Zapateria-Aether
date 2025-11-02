@@ -86,7 +86,7 @@ npm run dev
 Server running on http://localhost:3000
 ```
 
-![servidor_corriendo](screenshots/img3.png)
+![servidor_corriendo](screenshots/img4.png)
 ---
 
 ### 5. Verificación del Funcionamiento
@@ -105,7 +105,7 @@ http://localhost:3000
 - Botones para añadir productos al carrito
 - Una barra de navegación funcional
 
-![servidor_corriendo](screenshots/img3.png)
+![servidor_corriendo](screenshots/img5.png)
 
 #### Paso 5.2: Probar funcionalidades básicas
 
