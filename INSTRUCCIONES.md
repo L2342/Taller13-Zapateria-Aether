@@ -71,8 +71,7 @@ npm install
 
 Para iniciar el servidor en modo desarrollo con hot-reload:
 
-```bash
-cd src     
+```bash     
 npm run dev
 ```
 
@@ -87,8 +86,7 @@ npm run dev
 Server running on http://localhost:3000
 ```
 
-**Nota:** La terminal quedará "bloqueada" mostrando logs del servidor. Esto es normal.
-
+![servidor_corriendo](screenshots/img3.png)
 ---
 
 ### 5. Verificación del Funcionamiento
@@ -107,6 +105,8 @@ http://localhost:3000
 - Botones para añadir productos al carrito
 - Una barra de navegación funcional
 
+![servidor_corriendo](screenshots/img3.png)
+
 #### Paso 5.2: Probar funcionalidades básicas
 
 1. **Verificar el catálogo:**
@@ -123,19 +123,6 @@ http://localhost:3000
    - Deberías ver los productos añadidos
    - Verifica que puedas cambiar cantidades y eliminar productos
 
-#### Paso 5.3: Verificar las APIs
-
-Puedes probar los endpoints de la API directamente:
-
-**Obtener todos los productos:**
-```bash
-curl http://localhost:3000/api/products
-```
-
-**Ver el carrito actual:**
-```bash
-curl http://localhost:3000/api/cart
-```
 
 ---
 
@@ -224,58 +211,20 @@ sudo npm install
 # O mejor, corregir permisos de npm
 ```
 
----
+#### Problema: ERR_MODULE_NOT_FOUND]: Cannot find module 'C:....\src\routes\products.js' imported from C:\Users\samue\Downloads\zapateria-app\src\server.ts
+**Solución**
+En server.ts cambia el import de los archivos products y cart, cambia el .js por ts
 
-### 10. Capturas de Pantalla Requeridas
+Ahora para que pueda ejecutarlo sin problema 
+```bash
+#ve a tsconfig.json
+#en la parte de compilerOptions añade las dos siguentes lineas de código
+"allowImportingTsExtensions": true,
+"noEmit": true
 
-Para la documentación del proyecto, toma capturas de:
-
-1. **Terminal mostrando:**
-   - Comando `npm install` completado exitosamente
-   - Comando `npm run dev` con el servidor corriendo
-   - Salida de `node --version` y `npm --version`
-
-2. **Navegador mostrando:**
-   - Página principal (`http://localhost:3000`)
-   - Página del carrito con productos añadidos
-   - Consola del desarrollador sin errores (F12 → Console)
-
-3. **Editor de código mostrando:**
-   - Estructura de carpetas del proyecto
-   - Archivo `package.json` abierto
-
----
-
-### 11. Checklist de Verificación
-
-Marca cada item cuando lo completes:
-
-- [ ] Node.js 18+ instalado y verificado
-- [ ] Proyecto descargado/clonado
-- [ ] `npm install` ejecutado sin errores
-- [ ] `npm run dev` inicia el servidor correctamente
-- [ ] Página principal carga en `http://localhost:3000`
-- [ ] Catálogo de productos visible
-- [ ] Funcionalidad "Añadir al carrito" funciona
-- [ ] Página del carrito funciona correctamente
-- [ ] API endpoints responden correctamente
-- [ ] Capturas de pantalla tomadas
-- [ ] Documentación completada
-
----
-
-## Información del Sistema
-
-**Fecha de instalación:** _[Completar]_  
-**Sistema Operativo:** _[Completar]_  
-**Versión Node.js:** _[Completar]_  
-**Versión npm:** _[Completar]_  
-**Integrantes del grupo:** _[Completar]_
-
+#Esto hará que no tengas problema con los imports y puedas ejecutar npm run dev normalmente.
+```
 ---
 
 ## Conclusión
-
 Si todos los pasos anteriores se completaron exitosamente, el entorno de desarrollo de Zapatería Aether está correctamente configurado y listo para trabajar.
-
-**Próximos pasos:** Revisar el código fuente y comenzar con las tareas de desarrollo asignadas.

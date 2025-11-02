@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import cookieSession from "cookie-session";
-import productsRouter from "./routes/products";
-import cartRouter from "./routes/cart";
+import productsRouter from "./routes/products.ts";
+import cartRouter from "./routes/cart.ts";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
