@@ -37,6 +37,7 @@ Extrae el contenido y navega a la carpeta con el siguiente comando:
 ```bash
 cd zapateria-app
 ```
+![Carpeta](screenshots/img2.png)
 
 ---
 
@@ -56,10 +57,13 @@ npm install
 
 **Tiempo estimado:** 1-3 minutos (dependiendo de tu conexión a internet)
 
-**Captura esperada:** 
+ 
 - Deberías ver múltiples líneas indicando la descarga de paquetes
 - Al final verás un resumen con el número de paquetes instalados
 - No deberían aparecer errores (warnings son aceptables)
+
+![npminstall](screenshots/img3.png)
+
 
 ---
 
@@ -68,6 +72,7 @@ npm install
 Para iniciar el servidor en modo desarrollo con hot-reload:
 
 ```bash
+cd src     
 npm run dev
 ```
 
