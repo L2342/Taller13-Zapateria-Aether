@@ -1,18 +1,19 @@
 
 
-<div align="center">
-	<img src="public/Logo.png" alt="Logo Casa Alveré" width="120" style="margin-bottom: 1rem;" />
-  
-	<h1>Casa Alveré (Bootstrap + TypeScript + Express)</h1>
-  
-	<p>
-		<img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap"/>
-		<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
-		<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js"/>
-		<img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express"/>
-		<img src="https://img.shields.io/badge/Cookie--Session-ffca28?style=for-the-badge" alt="Cookie-Session"/>
-	</p>
-</div>
+
+<p align="center">
+  <img src="public/Logo.png" alt="Logo Casa Alveré" width="120" />
+</p>
+
+# Casa Alveré (Bootstrap + TypeScript + Express)
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express"/>
+  <img src="https://img.shields.io/badge/Cookie--Session-ffca28?style=for-the-badge" alt="Cookie-Session"/>
+</p>
 
 Tienda de zapatos de ejemplo con frontend en Bootstrap y backend en Express (TypeScript). Incluye carrito persistente y catálogo de productos.
 
