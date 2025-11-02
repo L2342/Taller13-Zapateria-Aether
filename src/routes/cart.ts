@@ -2,6 +2,7 @@ import { Router } from "express";
 import type { CartItem } from "../types/index.d.js";
 import productsRouter from "./products.ts";
 import type { Product } from "../types/index.d.js";
+import { promises as fs } from 'fs';
 
 
 // Obtener productos del catálogo (import indirecto)
@@ -26,49 +27,73 @@ try {
 
 const router = Router();
 // Ruta para calcular el total del carrito
-router.get("/total", (req, res) => {
-  const cart: CartItem[] = (req.session as any).cart || [];
+router.get("/total",  async (req, res) => {
+  const cart: CartItem[] = await readCart()
   let total = 0;
   for (const item of cart) {
     const prod = products.find(p => p.id === item.productId);
     if (prod) total += prod.price * item.qty;
   }
   res.status(200).json({
-    message: "Success",
+    status: "Success",
     total: total
   });
 });
 
 // Cart is stored per-session in cookie-session
-router.get("/", (req, res) => {
-  const cart: CartItem[] = (req.session as any).cart || [];
+router.get("/", async(req, res) => {
+  const cart: CartItem[] = await readCart() || [];
   res.json(cart);
 });
 
-router.post("/add", (req, res) => {
+router.post("/add",  async (req, res) => {
   const { productId, qty } = req.body as CartItem;
   if (!productId || qty == null || qty <= 0) {
-    return res.status(400).json({ error: "Datos inválidos" });
+    return res.status(400).json({
+      status: "error",
+      message: "productId valido y qty (mayor a 0) son requeridos"
+    });
   }
-  const sess: any = req.session;
-  sess.cart = sess.cart || [];
-  const idx = sess.cart.findIndex((i: CartItem) => i.productId === productId);
-  if (idx >= 0) sess.cart[idx].qty += qty;
-  else sess.cart.push({ productId, qty });
-  res.json({ ok: true, cart: sess.cart });
+  const cart: CartItem[] = await readCart();
+  const existingItem = cart.find(i => i.productId === productId);
+  if (existingItem) {
+    existingItem.qty += qty;
+  } else {
+    cart.push({ productId, qty });
+  }
+  await writeCart(cart);
+  res.json({ ok: true, cart });
 });
 
-router.post("/remove", (req, res) => {
+router.post("/remove", async (req, res) => {
   const { productId } = req.body as { productId: number };
-  if (!productId) return res.status(400).json({ error: "productId requerido" });
-  const sess: any = req.session;
-  sess.cart = (sess.cart || []).filter((i: CartItem) => i.productId !== productId);
-  res.json({ ok: true, cart: sess.cart });
+  if (!productId ) return res.status(400).json({ error: "productId requerido" });
+  // si no existe indicar error 404
+  const cart: CartItem[] = await readCart();
+  const existingItem = cart.find(i => i.productId === productId);
+  if (!existingItem) return res.status(404).json({ status:"error", message: "producto no encontrado en el carrito" });
+  await writeCart(cart.filter((i: CartItem) => i.productId !== productId));
+  res.json({ ok: true, cart });
 });
 
-router.post("/clear", (req, res) => {
-  (req.session as any).cart = [];
+router.post("/clear", async (req, res) => {
+  await writeCart([]);
   res.json({ ok: true, cart: [] });
 });
+
+
+const DATA_PATH =  './src/data/data.json';
+async function readCart(): Promise<CartItem[]> {
+  try {
+    const data = await fs.readFile(DATA_PATH, 'utf-8');
+    return JSON.parse(data);
+  } catch (err) {
+    return [];
+  }
+}
+
+async function writeCart(cart: CartItem[]): Promise<void> {
+  await fs.writeFile(DATA_PATH, JSON.stringify(cart, null, 2), 'utf-8');
+}
 
 export default router;

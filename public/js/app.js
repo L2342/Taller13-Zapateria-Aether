@@ -31,6 +31,7 @@ async function loadProducts() {
         body: JSON.stringify({ productId, qty })
       });
       updateCartCount();
+      showCartToast();
     });
   });
 
@@ -145,3 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeFilters();
   loadProducts();
 });
+
+// Toast de Bootstrap para notificación de producto agregado
+function showCartToast() {
+  const toastEl = document.getElementById('cart-toast');
+  if (!toastEl) return;
+  const toast = bootstrap.Toast ? new bootstrap.Toast(toastEl, { delay: 2000 }) : null;
+  if (toast) toast.show();
+}
