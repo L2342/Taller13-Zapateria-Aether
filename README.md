@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="public/Logo.png" alt="Logo Casa Alveré" width="120" />
+  <img src="public/Logo.png" alt="Logo Casa Alveré" width="300" />
 </p>
 
 # Casa Alveré (Bootstrap + TypeScript + Express)
