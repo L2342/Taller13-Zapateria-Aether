@@ -1,6 +1,6 @@
 import { Router } from "express";
 import type { CartItem } from "../types/index.d.js";
-import productsRouter from "./products.ts";
+import productsRouter from "./products.js";
 import type { Product } from "../types/index.d.js";
 import { promises as fs } from 'fs';
 

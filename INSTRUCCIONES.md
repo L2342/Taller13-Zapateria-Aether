@@ -224,7 +224,3 @@ Ahora para que pueda ejecutarlo sin problema
 
 #Esto hará que no tengas problema con los imports y puedas ejecutar npm run dev normalmente.
 ```
----
-
-## Conclusión
-Si todos los pasos anteriores se completaron exitosamente, el entorno de desarrollo de Zapatería Aether está correctamente configurado y listo para trabajar.

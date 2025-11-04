@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
 import cookieSession from "cookie-session";
-import productsRouter from "./routes/products.ts";
-import cartRouter from "./routes/cart.ts";
+import productsRouter from "./routes/products";
+import cartRouter from "./routes/cart";
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +24,11 @@ app.use(express.static("public"));
 app.use("/api/products", productsRouter);
 app.use("/api/cart", cartRouter);
 
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
-});
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+  });
+}
+
+export { app };
