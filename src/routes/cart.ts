@@ -3,6 +3,7 @@ import type { CartItem } from "../types/index.d.js";
 import productsRouter from "./products.js";
 import type { Product } from "../types/index.d.js";
 import { promises as fs } from 'fs';
+import { body, validationResult } from "express-validator";
 
 
 // Obtener productos del catálogo (import indirecto)
@@ -26,9 +27,11 @@ try {
 }
 
 const router = Router();
+
+
 // Ruta para calcular el total del carrito
 router.get("/total",  async (req, res) => {
-  const cart: CartItem[] = await readCart()
+  const cart: CartItem[] = await readCart();
   let total = 0;
   for (const item of cart) {
     const prod = products.find(p => p.id === item.productId);
@@ -40,30 +43,33 @@ router.get("/total",  async (req, res) => {
   });
 });
 
-// Cart is stored per-session in cookie-session
+// Cart is stored globally in data.json
 router.get("/", async(req, res) => {
   const cart: CartItem[] = await readCart() || [];
   res.json(cart);
 });
 
-router.post("/add",  async (req, res) => {
-  const { productId, qty } = req.body as CartItem;
-  if (!productId || qty == null || qty <= 0) {
-    return res.status(400).json({
-      status: "error",
-      message: "productId valido y qty (mayor a 0) son requeridos"
-    });
+router.post(
+  "/add",
+  body("productId").isInt({ gt: 0 }).withMessage("productId debe ser un entero positivo"),
+  body("qty").isInt({ gt: 0 }).withMessage("qty debe ser un entero positivo"),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { productId, qty } = req.body as CartItem;
+    const cart: CartItem[] = await readCart();
+    const existingItem = cart.find(i => i.productId === productId);
+    if (existingItem) {
+      existingItem.qty += qty;
+    } else {
+      cart.push({ productId, qty });
+    }
+    await writeCart(cart);
+    res.json({ ok: true, cart });
   }
-  const cart: CartItem[] = await readCart();
-  const existingItem = cart.find(i => i.productId === productId);
-  if (existingItem) {
-    existingItem.qty += qty;
-  } else {
-    cart.push({ productId, qty });
-  }
-  await writeCart(cart);
-  res.json({ ok: true, cart });
-});
+);
 
 router.post("/remove", async (req, res) => {
   const { productId } = req.body as { productId: number };
